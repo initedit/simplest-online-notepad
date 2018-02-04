@@ -3,10 +3,17 @@
  * Global Variable
  * 
  */
-define("BASE_PATH", "note/");
+define("BASE_PATH", "note/"); // Path (Relative to index.php) where notes will be saved
 
 /*
  * Start Function
+ */
+
+/**
+ *  Encrypts the given message
+ * 
+ *  @param string $msg The message which will be encrypted.
+ * 
  */
 
 function encrypt($msg) {
@@ -14,14 +21,21 @@ function encrypt($msg) {
     return hash("sha256", $masala . $msg);
 }
 
+/**
+ * Makes the file downloadable
+ * 
+ * @param string $file File to be downloaded
+ * 
+ */
 function download_file($file) {
+    //Removes the "note." from filename
     $filename = str_replace("note.", "", $file);
+    //
     $filename = strlen($filename) == 4 ? "note.txt" : $filename;
     $_file = BASE_PATH . $file;
     if (file_exists($_file)) {
         header('Content-Type: application/octet-stream');
         header('Content-Disposition: attachment; filename="' . $filename.'"');
-//    header('Content-Disposition: attachment; filename=note.txt');
         header('Expires: 0');
         header('Cache-Control: must-revalidate');
         header('Pragma: public');
@@ -29,7 +43,8 @@ function download_file($file) {
         readfile($_file);
         exit();
     }else{
-        echo $_file."FILE NOT FOUND";
+        //Display Debug Info
+        //echo $_file."FILE NOT FOUND";
     }
 }
 
@@ -239,10 +254,10 @@ fclose($fh);
                 <br/><br/>
                 <div>
                     <input type="submit" value="Save File" class="button" onclick="formSave()" /> (CTRL + S)
-                    <img align="right" onclick="showDeleteConfirm()" src="img/delete2.png" title="Delete file" class='key-img'/>                 
-                    <img align="right" onclick="downloadClick()" src="img/download2.png" title="Download file" class='key-img'/>
-                    <img align="right" onclick="showPasswordPromt()"  src="img/lock2.png" title="Lock file" class='key-img'/>
-                    <img align="right" onclick="copyClipboard()" src="img/copy2.png" title="Copy To Clipboard" class='key-img'/>
+                    <img align="right" onclick="showDeleteConfirm()" src="/img/delete2.png" title="Delete file" class='key-img'/>                 
+                    <img align="right" onclick="downloadClick()" src="/img/download2.png" title="Download file" class='key-img'/>
+                    <img align="right" onclick="showPasswordPromt()"  src="/img/lock2.png" title="Lock file" class='key-img'/>
+                    <img align="right" onclick="copyClipboard()" src="/img/copy2.png" title="Copy To Clipboard" class='key-img'/>
 
                 </div>
                 <div>
