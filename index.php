@@ -56,19 +56,40 @@ function download_file($file) {
  * End Functions
  */
 
+//Makes Base Path Folder if it does not exists
+if(!file_exists(BASE_PATH)){
+    mkdir(BASE_PATH, 777);
+    
+    //If Base Path has nested directories eg. notes/public/, personnal/notes/, notes/default/
+    //mkdir(BASE_PATH, 777, TRUE);
+}
+
+
+//Get Filepath name for request uri
 $url = str_replace("/", "note.", "$_SERVER[REQUEST_URI]");
-//$lock=str_replace("/","note.","$_SERVER[REQUEST_URI]");
+
+//Get Lock filename
 $lock = $url . ".lock";
 
-
+// Start Session to store and retrieve PWD for locked file
 session_start();
+
+//Check if File is authenticated
 $authenticated = false;
+
+//Check if file is password protected
 $isPAsswordProtected = false;
+
+//Global Message to be displayed for users action
 $globalMessage = null;
 
+
+//Set $isPAsswordProtected based for lock files existence
 if (file_exists(BASE_PATH . $lock)) {
     $isPAsswordProtected = true;
 }
+
+//Check if user has submitted the form
 if (isset($_POST['data'])) {
     $theData = $_POST['data'];
     $myFile = "$url.txt";
@@ -142,10 +163,11 @@ if (isset($_POST['data'])) {
         }
     }
 } else {
+
+    //Display files content as form was not submitted
     $myFile = "$url.txt";
     $fh = fopen(BASE_PATH . $myFile, 'r');
     $theData = fread($fh, filesize(BASE_PATH . $myFile));
-
     if ($isPAsswordProtected) {
         $fh = fopen(BASE_PATH . $lock, 'r');
         $theTokenData = fread($fh, filesize(BASE_PATH . $lock));
@@ -154,6 +176,7 @@ if (isset($_POST['data'])) {
         }
     }
 }
+// Close file handler to prevent memory leak
 fclose($fh);
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -428,7 +451,7 @@ fclose($fh);
                 showKeyMsg("Downloding");
                 document.getElementById("download").value = "true";
                 document.forms.noteform.submit();
-                
+
                 //Because forms value aren't reset
                 document.getElementById("download").value = "false";
             }
@@ -436,7 +459,7 @@ fclose($fh);
 
         </script>
         <?php
-        //Page Counter
+        //logic for page counter
 
         $fp = fopen("counterlog.txt", "r");
 
