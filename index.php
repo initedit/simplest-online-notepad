@@ -15,7 +15,6 @@ define("BASE_PATH", "note/"); // Path (Relative to index.php) where notes will b
  *  @param string $msg The message which will be encrypted.
  * 
  */
-
 function encrypt($msg) {
     $masala = ""; //Add your masala(Salt) to hash
     return hash("sha256", $masala . $msg);
@@ -30,19 +29,24 @@ function encrypt($msg) {
 function download_file($file) {
     //Removes the "note." from filename
     $filename = str_replace("note.", "", $file);
-    //
+
+    // Check if $filename==".txt" then make it note.txt else keep the filename
     $filename = strlen($filename) == 4 ? "note.txt" : $filename;
+
+    //Get the absolute file path
     $_file = BASE_PATH . $file;
+
+    //Check if file exists (for debug purpose)
     if (file_exists($_file)) {
         header('Content-Type: application/octet-stream');
-        header('Content-Disposition: attachment; filename="' . $filename.'"');
+        header('Content-Disposition: attachment; filename="' . $filename . '"');
         header('Expires: 0');
         header('Cache-Control: must-revalidate');
         header('Pragma: public');
         header('Content-Length: ' . filesize($_file));
         readfile($_file);
         exit();
-    }else{
+    } else {
         //Display Debug Info
         //echo $_file."FILE NOT FOUND";
     }
@@ -60,7 +64,7 @@ $lock = $url . ".lock";
 session_start();
 $authenticated = false;
 $isPAsswordProtected = false;
-$globalMessage=null;
+$globalMessage = null;
 
 if (file_exists(BASE_PATH . $lock)) {
     $isPAsswordProtected = true;
@@ -210,7 +214,7 @@ fclose($fh);
             .globalMessage{
                 padding: 10px;
                 background-color: #6F0;
-                
+
             }
         </style>
         <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
@@ -220,11 +224,11 @@ fclose($fh);
     </head>
 
     <body onload="bodyLoaded()">
-        <?php if(!empty($globalMessage)){ ?>
-        <div class="globalMessage" id="globalMessage">
-            <?php echo $globalMessage;?>
-        </div>
-        <?php }?>
+        <?php if (!empty($globalMessage)) { ?>
+            <div class="globalMessage" id="globalMessage">
+                <?php echo $globalMessage; ?>
+            </div>
+        <?php } ?>
         <center>
             <a href="https://note.initedit.com" style="text-decoration: none;"><font style="font-size:20px;"><b>Simplest online notepad for copy-paste</b><br/><br/></font></a>
             <font style="font-size:20px;"> 
@@ -278,16 +282,16 @@ fclose($fh);
             <a href="https://github.com/initedit-project/simplest-online-notepad">Download source code</a>
         </center>
         <script>
-            
-            function bodyLoaded(){
-                setTimeout(hideGlobalMessage,2000);
+
+            function bodyLoaded() {
+                setTimeout(hideGlobalMessage, 2000);
             }
-            function hideGlobalMessage(){
+            function hideGlobalMessage() {
                 var el = document.getElementById("globalMessage");
                 el.innerHTML = "";
                 el.style.display = "none";
             }
-            
+
             function formSave() {
                 showKeyMsg("Saved");
             }
@@ -361,7 +365,7 @@ fclose($fh);
             function lockedClick() {
                 var element = document.getElementById("locked");
                 var str = element.innerHTML.trim();
-                if (str == "Locked" || str=="Unlocked") {
+                if (str == "Locked" || str == "Unlocked") {
                     showPasswordPromt();
                 } else if (str == "Locked - editable") {
                     document.getElementById("session_destroy").value = "true";
@@ -424,6 +428,9 @@ fclose($fh);
                 showKeyMsg("Downloding");
                 document.getElementById("download").value = "true";
                 document.forms.noteform.submit();
+                
+                //Because forms value aren't reset
+                document.getElementById("download").value = "false";
             }
             document.addEventListener("keydown", saveShortcut);
 
