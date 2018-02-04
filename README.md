@@ -10,13 +10,20 @@
 ## Shortcuts key :
 
 ALT  + N = New File
+
 ALT  + C = Copy all
+
 CTRL + S = Save
+
 CTRL + D = Download
+
 CTRL + L = Lock , Edit
+
 
 ## File status :
 
 Locked            = Uneditable
+
 Locked - editable = Editable (Password)
+
 Unlocked          = Editable
