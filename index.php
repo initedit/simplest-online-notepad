@@ -57,9 +57,9 @@ function download_file($file) {
  */
 
 //Makes Base Path Folder if it does not exists
-if(!file_exists(BASE_PATH)){
+if (!file_exists(BASE_PATH)) {
     mkdir(BASE_PATH, 777);
-    
+
     //If Base Path has nested directories eg. notes/public/, personnal/notes/, notes/default/
     //mkdir(BASE_PATH, 777, TRUE);
 }
@@ -85,9 +85,7 @@ $globalMessage = null;
 
 
 //Set $isPAsswordProtected based for lock files existence
-if (file_exists(BASE_PATH . $lock)) {
-    $isPAsswordProtected = true;
-}
+$isPAsswordProtected = file_exists(BASE_PATH . $lock);
 
 //Check if user has submitted the form
 if (isset($_POST['data'])) {
@@ -95,7 +93,7 @@ if (isset($_POST['data'])) {
     $myFile = "$url.txt";
     if ($_POST["session_destroy"] == "true") {
         unset($_SESSION["PWD"]);
-        $globalMessage = "Removed password";
+        $globalMessage = "Locked";
     } else if ($_POST["download"] == "true") {
         $download_auth = false;
         $download_auth = file_exists(BASE_PATH . $myFile);
@@ -115,6 +113,9 @@ if (isset($_POST['data'])) {
                 session_destroy();
                 $isPAsswordProtected = false;
                 $theData = "";
+                $globalMessage = "Note was removed";
+            } else {
+                $globalMessage = "Wrong Password";
             }
         } else {
             unlink(BASE_PATH . $myFile);
@@ -122,6 +123,7 @@ if (isset($_POST['data'])) {
             session_destroy();
             $isPAsswordProtected = false;
             $theData = "";
+            $globalMessage = "Note was removed";
         }
     } else {
 
@@ -141,6 +143,9 @@ if (isset($_POST['data'])) {
                     }
                 }
             }
+            if (!$authenticated) {
+                $globalMessage = "Wrong password";
+            }
 
             $fh = fopen(BASE_PATH . $myFile, 'r');
             $theData = fread($fh, filesize(BASE_PATH . $myFile));
@@ -152,6 +157,7 @@ if (isset($_POST['data'])) {
             fwrite($fh, $md5_token);
             $authenticated = true;
             $isPAsswordProtected = true;
+            $globalMessage = "Password is set";
         } else {
             $authenticated = true;
         }
@@ -160,6 +166,7 @@ if (isset($_POST['data'])) {
             $theData = $_POST['data'];
             $fh = fopen(BASE_PATH . $myFile, 'w');
             fwrite($fh, $_POST['data']);
+            $globalMessage = "Saved";
         }
     }
 } else {
@@ -228,16 +235,21 @@ fclose($fh);
             .newfile{
                 border: 0px;
                 padding: 0px;
+                outline: none;
             }
             .key-img{
                 width: 25px;
                 height: 25px;
                 margin-left: 10px;
+                cursor: pointer;
             }
             .globalMessage{
-                padding: 10px;
-                background-color: #6F0;
-
+                display: none;
+                font-size: 12px;
+                color: red;
+            }
+            .cursor{
+                cursor: pointer;
             }
         </style>
         <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
@@ -247,25 +259,28 @@ fclose($fh);
     </head>
 
     <body onload="bodyLoaded()">
-        <?php if (!empty($globalMessage)) { ?>
-            <div class="globalMessage" id="globalMessage">
-                <?php echo $globalMessage; ?>
-            </div>
-        <?php } ?>
+
         <center>
             <a href="https://note.initedit.com" style="text-decoration: none;"><font style="font-size:20px;"><b>Simplest online notepad for copy-paste</b><br/><br/></font></a>
             <font style="font-size:20px;"> 
-
-                <?php
-                $filename = str_replace("/", "", "$_SERVER[REQUEST_URI]");
-                echo "$filename" . ".txt";
-                ?>
+                <span onclick="copyClipboard()" class="cursor">
+                    <?php
+                    $filename = str_replace("/", "", "$_SERVER[REQUEST_URI]");
+                    echo "$filename" . ".txt";
+                    ?>
+                </span>
                 (<span style="cursor: pointer;font-size: 14px;color: <?php echo ($isPAsswordProtected) ? "#F00" : "#0F0" ?>;" onclick="lockedClick()" id="locked">
                     <?php
                     echo $isPAsswordProtected ? "Locked" . ($authenticated ? " - editable" : "" ) : "Unlocked";
                     ?>
 
                 </span>)
+
+                <span class="globalMessage" id="globalMessage">
+                    <?php if (!empty($globalMessage)) { ?>
+                        <?php echo $globalMessage; ?>
+                    <?php } ?>
+                </span>
             </font>
             <br/>
             <form name="noteform" method="post" action="">
@@ -288,7 +303,11 @@ fclose($fh);
 
                 </div>
                 <div>
-                    <span id="key-msg" style="float: right;"></span>
+                    <span id="key-msg" style="float: right;">
+                        <?php if (!empty($globalMessage)) { ?>
+                            <?php echo $globalMessage; ?>
+                        <?php } ?>
+                    </span>
                 </div>
 
                 <br/>
@@ -307,25 +326,28 @@ fclose($fh);
         <script>
 
             function bodyLoaded() {
-                setTimeout(hideGlobalMessage, 2000);
-            }
-            function hideGlobalMessage() {
-                var el = document.getElementById("globalMessage");
-                el.innerHTML = "";
-                el.style.display = "none";
+                showKeyMsg();
             }
 
+
+
             function formSave() {
-                showKeyMsg("Saved");
+                setKeyMsg("Saved");
             }
-            function showKeyMsg(msg) {
+            function setKeyMsg(msg) {
                 var el = document.getElementById("key-msg");
                 el.innerHTML = msg;
+//                el.style.display = "inline";
+//                setTimeout(hideKeyMsg, 1500);
+                showKeyMsg();
+            }
+            function showKeyMsg() {
+                var el = document.getElementById("key-msg");
                 el.style.display = "inline";
                 setTimeout(hideKeyMsg, 1500);
             }
 
-            function hideKeyMsg(msg) {
+            function hideKeyMsg() {
                 var el = document.getElementById("key-msg");
                 el.innerHTML = "";
                 el.style.display = "none";
@@ -408,7 +430,7 @@ fclose($fh);
                 if (zEvent.ctrlKey) {
                     if (zEvent.code === "KeyS") {
                         document.forms.noteform.submit();
-                        showKeyMsg("Saved");
+                        setKeyMsg("Saved");
                         zEvent.preventDefault();
                         return false;
                     } else if (zEvent.code === "KeyD") {
@@ -444,11 +466,13 @@ fclose($fh);
 
                 /* Copy the text inside the text field */
                 document.execCommand("Copy");
-                showKeyMsg("Copied");
+
+                setKeyMsg("Copied");
+                copyText.setSelectionRange(0, 0);
             }
 
             function downloadClick() {
-                showKeyMsg("Downloding");
+                setKeyMsg("Downloding");
                 document.getElementById("download").value = "true";
                 document.forms.noteform.submit();
 
