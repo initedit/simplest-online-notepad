@@ -19,6 +19,7 @@ CTRL + D = Download
 
 CTRL + L = Lock , Edit
 
+CTRL + u = UnLock , Edit
 
 ## File status :
 
