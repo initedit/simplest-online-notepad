@@ -1,0 +1,456 @@
+/* 
+    Created on : Feb 9, 2018, 1:04:11 PM
+    
+*/
+
+/*
+ * Theme : White
+*/
+$backgroundColor : #FFF;
+$textColor : #111;
+$textColorHover : #666;
+$boxShadowColor : #666;
+$headerBackgroundColor : #F6F6F6;
+$overlayColor : rgba(255,255,255,0.8);
+$menuBorderColor : #AAA;
+$socialIconColor : #666;
+$socialIconHoverColor : #333;
+$textareaDisableBackgroundColor : #DDD;
+$textareaDisableTextColor : #666;
+$borderColor : rgba(0,0,0,0.1);
+$tabBackgroundColor : #EEE;
+/*
+ * Theme : Black
+*/
+$backgroundColor : #111;
+$textColor : #EEE;
+$boxShadowColor : #666;
+$headerBackgroundColor : #161616;
+$overlayColor : rgba(0,0,0,0.8);
+$menuBorderColor : #444;
+$socialIconColor : #666;
+$socialIconHoverColor : #999;
+$textareaDisableBackgroundColor : #333;
+$textareaDisableTextColor : #999;
+$borderColor : rgba(255,255,255,0.1);
+$tabBackgroundColor : #222;
+
+::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+}
+::-webkit-scrollbar-button {
+    width: 0px;
+    height: 0px;
+}
+::-webkit-scrollbar-thumb {
+    background: #e1e1e1;
+    border: 4px solid #ffffff;
+    border-radius: 50px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #ffffff;
+}
+::-webkit-scrollbar-thumb:active {
+    background: #000000;
+}
+::-webkit-scrollbar-track {
+    background: #666666;
+    border: 0px none #ffffff;
+    border-radius: 50px;
+}
+::-webkit-scrollbar-track:hover {
+    background: #666666;
+}
+::-webkit-scrollbar-track:active {
+    background: #333333;
+}
+::-webkit-scrollbar-corner {
+    background: transparent;
+}
+
+::selection {
+    background-color: $textColor;
+    color: $backgroundColor;
+}
+
+html,body{
+    font-size: 13px;
+    color: $textColor;
+    background-color: $backgroundColor;
+    font-family: 'Lato', sans-serif;
+    padding: 0px;
+    margin: 0px;
+    box-sizing: border-box;
+}
+.fa{
+    font-size: 1rem;
+}
+textarea,input,select,toast-msg{
+    font-family: 'Lato', sans-serif;
+}
+a{
+    text-decoration: none;
+}
+
+.none{
+    display: none;
+}
+
+.left{
+    float: left;
+}
+.right{
+    float: right;
+}
+.clearfix:after{
+    content: " ";
+    clear: both;
+}
+.text-center{
+    text-align: center;
+}
+
+/*
+Application Specific
+*/
+.main-header{
+    &{
+        padding: 0.8em 0em;
+        background-color: $headerBackgroundColor;
+        box-shadow: 2px 0px 3px $boxShadowColor;
+        line-height: 1.8em;
+        z-index: 1;
+        position: relative;
+    }
+    .fa{
+        padding: 0px 1.25rem;
+        font-size: 1.8em;
+        cursor: pointer;
+    }
+    .brand-icon{
+        font-weight: bold;
+        font-size: 1.8em;
+    }
+}
+
+.sidebar{
+    &{
+        position: fixed;
+        left: 0%;
+        /*box-shadow: 0px 2px 3px $boxShadowColor;*/
+        /*height: calc(100% -  3.4rem);*/
+        z-index: 1;
+        overflow-y: auto;
+        bottom: 0px;
+        right: 0px;
+        left: auto;
+        height: auto;
+        font-size: 0.7em;
+        width: auto;
+    }
+    .menu-item{
+        &{
+            /*border-bottom: 1px solid $menuBorderColor;*/
+            padding: 1.1rem;
+            font-size: 1.8em;
+            cursor: pointer;
+            display: none;
+            float: left;
+
+        }
+        .icon{
+            vertical-align: middle;
+            font-size: inherit;
+        }
+        .title{
+            &{
+                position: fixed;
+                width: 0px;
+                font-weight: bold;
+                font-size: 1rem;
+                z-index: 2;
+                margin-left: 1.8em;
+                background-color: #000;
+                border-radius: 6px;
+                overflow: hidden;
+            }
+            .hint{
+                padding: 0.5rem;
+            }
+        }
+        &:hover{
+            .title{
+                width: inherit;
+            }
+        }
+    }
+}
+
+.content{
+    &{
+        /*margin-left: 4.3rem;*/
+        /*margin-top: 3px;*/
+        /*margin-top: 68.8px;*/
+        /*position: fixed;*/
+    }
+    .note-textarea{
+        &{
+            outline: none;
+            width: 100%;
+            height: calc(100vh - 6rem);
+            position: relative;
+            border: none; 
+            line-height: 1.6em;
+            padding: 10px;
+            font-size: 1.2em;
+            background-color: $backgroundColor;
+            color: $textColor;
+            resize: none;
+        }
+
+        &:disabled{
+            background-color: $textareaDisableBackgroundColor;
+            color: $textareaDisableTextColor;
+        }
+
+    }
+    .note-hidden{
+        position: fixed;
+        left: -9999px;
+    }
+}
+.overlay{
+    position: fixed;
+    z-index: 2;
+    left: 0px;
+    right: 0px;
+    top: 0px;
+    bottom: 0px;
+    background-color: $overlayColor;
+    display: none;
+}
+.info-menu{
+    &{
+        position: fixed;
+        z-index: 3;
+        top: 0px;
+        right: -100%;
+        height: 100%;
+        box-shadow: -2px 0px 5px $boxShadowColor;
+        background-color: $backgroundColor;
+        /*display: none;*/
+        width: 300px;
+        overflow-y: auto;
+    }
+
+    .close-info{
+        &{
+            position: absolute;
+            top: 0;
+            right: 1rem;
+            font-size: 1.8em;
+            color: $textColorHover;
+            cursor: pointer;
+            line-height: 1.8em;
+        }
+        &:hover{
+            color: $textColor;
+        }
+    }
+    .social{
+        &{
+            font-size: 1.5em;
+        }
+        a{
+            margin-right: 0.5em;
+            display: inline-block;
+            color: $socialIconColor;
+        }
+        a:last-child{
+            margin-right: 0px;
+        }
+        a:hover{
+            color: $socialIconHoverColor;
+        }
+    }
+}
+
+.home-icon{
+    color: $textColor;
+}
+.home-icon:hover{
+    color: $textColor;
+}
+.toast-msg{
+    /*padding: 0.35em;*/
+    font-weight: bold;
+    font-size: 1em;
+}
+.modal{
+    color: #111;
+}
+hr{
+    border-top:1px solid $borderColor;
+}
+.none{
+    display: none;
+}
+.note-tabs-scroll{
+    width: 100%;
+    overflow-x: auto; 
+    overflow-y: hidden;
+    white-space: nowrap;
+    position: relative;
+}
+.note-tabs-scroll-container{
+    position: relative;
+}
+#note-tabs-container{
+    &{
+        display: table;
+        position: relative;
+        padding-right: 2.5em;
+    }
+    #note-tabs{
+        display: table-row;
+    }
+    .tab{
+        &{
+            display: table-cell;
+            padding: 0.6em;
+            border-bottom: 1px solid $borderColor;
+            border-right: 1px solid $borderColor;
+            cursor: pointer;
+            background-color: $tabBackgroundColor;
+        }
+        .tab-title{
+            &{
+                border: none;
+                outline: none;
+                background-color: inherit;
+                color: $textColor;
+                cursor: pointer;
+                height: 1em;
+            }
+
+        }
+        .unsaved-indicator{
+            opacity: 0;
+            font-weight: bold;
+        }
+        .tab-title{
+            /*background-color: inherit;*/
+        }
+        &.selected{
+            &{
+                background-color: $textColorHover;
+            }
+
+        }
+        &.modified{
+            &{
+                /*background-color: #FF6600;*/
+            }
+            .unsaved-indicator{
+                opacity: 1;
+            }
+        }
+    }
+}
+.note-tab-add{
+    &{
+        position: absolute;
+        padding: 1em;
+        /*height: 2.2em;*/
+        float: right;
+        top: 0px;
+        right: 0px;
+        cursor: pointer;
+        background-color: $backgroundColor;
+        border-left: 1px solid $borderColor;
+        border-bottom: 1px solid $borderColor;
+    }
+    .fa{
+        font-size: 1em;
+    }
+}
+.note-list{
+    &{
+        height: 50vh;
+        overflow-y: auto;
+    }
+    .item-index{
+        &{
+            cursor: pointer;
+        }
+        .fa-sort{
+            cursor: move;
+        }
+        .name{
+            width: 70%;
+        }
+    }
+}
+#book-name{
+    font-weight: bold;
+    font-size: 1.8em;
+    position: absolute;
+    left: 2.5em;
+    cursor: pointer;
+}
+
+/* The switch - the box around the slider */
+.switch {
+    &{
+        position: relative;
+        display: inline-block;
+        width: 50px;
+        height: 30px;
+    }
+    input {display:none;}
+
+    .slider {
+        &{
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            -webkit-transition: .4s;
+            transition: .4s;
+        }
+        &:before {
+            position: absolute;
+            content: "";
+            height: 20px;
+            width: 20px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            -webkit-transition: .4s;
+            transition: .4s;
+        }
+    }
+    input:checked + .slider {
+        background-color: #2196F3;
+    }
+
+    input:focus + .slider {
+        box-shadow: 0 0 1px #2196F3;
+    }
+
+    input:checked + .slider:before {
+        -webkit-transform: translateX(20px);
+        -ms-transform: translateX(20px);
+        transform: translateX(20px);
+    }
+    .round {
+        border-radius: 34px;
+    }
+    .round:before {
+        border-radius: 50%;
+    }
+}
