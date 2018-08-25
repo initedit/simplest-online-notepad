@@ -502,7 +502,8 @@ function setActiveNoteTabUI(note) {
     } else {
         $noteData.val(note.data);
     }
-//    window.location.hash="#"+(hashparseInt(note.order_index)+1);
+    var noteIndex = (parseInt(note.order_index))+1;
+    window.location.hash="#"+noteIndex;
     $noteTabs.find("#" + note.tabid).addClass("selected");
     var offset = $noteTabs.find("#" + note.tabid).offset();
     var offsetContainer = $noteTabs.offset();
@@ -646,13 +647,16 @@ function getDomainName() {
 function gotoNewNote() {
     var val = $("#basic-url").val();
     var state = {};
+    state.refresh = true;
     window.history.pushState(state, "", "/" + val);
 
     fetchNote("/" + val);
     $("#newNoteDialog").modal("hide");
 }
 window.onpopstate = function (e) {
-    refreshNote();
+    console.log(arguments);
+    if(e.state && e.state.refresh)
+        refreshNote();
 };
 
 
