@@ -11,6 +11,7 @@ var config = {
  * 
  */
 function initNote() {
+    setupAjaxHandler();
     $("#newNoteBtn").click(showNewNoteDialog);
     $("#bookNoteBtn").click(showBookIndexDialog);
     $("#saveNoteBtn").click(saveNote);
@@ -93,6 +94,37 @@ function initNote() {
      * 
      */
     fetchNote(window.location.pathname);
+}
+
+function setupAjaxHandler() {
+    var shouldAnimate = 0;
+    var animateMe = function (targetElement, speed) {
+        $(targetElement).css({left: '-200px'});
+        $(targetElement).animate(
+                {
+                    'left': $(document).width() + 200
+                },
+                {
+                    duration: speed,
+                    complete: function () {
+                        if (shouldAnimate > 0) {
+                            animateMe(this, speed);
+                        }
+                    }
+                }
+        );
+    };
+    $(document).ajaxSend(function () {
+        shouldAnimate++;
+        if (shouldAnimate === 1)
+            animateMe($(".progress-bar"), 1000);
+
+        $(".progress-bar-container").show();
+    });
+    $(document).ajaxComplete(function () {
+        shouldAnimate--;
+        $(".progress-bar-container").hide();
+    });
 }
 
 /**
@@ -313,7 +345,7 @@ function setDefaultNoteVisible() {
     if (isNaN(activeDefaultActiveIndex))
         activeDefaultActiveIndex = 1;
 
-    if(activeDefaultActiveIndex<=0 || activeDefaultActiveIndex>config.noteData.notes.length)
+    if (activeDefaultActiveIndex <= 0 || activeDefaultActiveIndex > config.noteData.notes.length)
         activeDefaultActiveIndex = 1;
 
     for (var noteIndex in config.noteData.notes) {
@@ -502,8 +534,8 @@ function setActiveNoteTabUI(note) {
     } else {
         $noteData.val(note.data);
     }
-    var noteIndex = (parseInt(note.order_index))+1;
-    window.location.hash="#"+noteIndex;
+    var noteIndex = (parseInt(note.order_index)) + 1;
+    window.location.hash = "#" + noteIndex;
     $noteTabs.find("#" + note.tabid).addClass("selected");
     var offset = $noteTabs.find("#" + note.tabid).offset();
     var offsetContainer = $noteTabs.offset();
@@ -655,7 +687,7 @@ function gotoNewNote() {
 }
 window.onpopstate = function (e) {
     console.log(arguments);
-    if(e.state && e.state.refresh)
+    if (e.state && e.state.refresh)
         refreshNote();
 };
 
