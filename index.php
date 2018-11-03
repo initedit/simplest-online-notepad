@@ -35,7 +35,7 @@
             <p class="version">Version 1.0</p>
             <br/>
             <hr/>
-            <p class="desc">Minimilistic online notepad editor made using PHP and DHTML,<br/> Databases used :) :P</p>
+            <p class="desc">Minimilistic online notepad editor made using PHP and DHTML,<br/> Databases used</p>
 
             <br/>
             <br/>
