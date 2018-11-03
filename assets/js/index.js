@@ -536,7 +536,8 @@ function setActiveNoteTabUI(note) {
     } else {
         $noteData.val(note.data);
     }
-    var noteIndex = (parseInt(note.order_index)) + 1;
+    var noteIndex = getNoteOrderIndex(note);
+
     window.location.hash = "#" + noteIndex;
     $noteTabs.find("#" + note.tabid).addClass("selected");
     var offset = $noteTabs.find("#" + note.tabid).offset();
@@ -1062,7 +1063,7 @@ function getMaxOrderNumber() {
         try{
             o = parseInt(o);
         }catch{
-            o=0;
+            o = 0;
         }
     }
     return o + 1;
@@ -1074,4 +1075,12 @@ function getDefaultHash(){
       return getMaxOrderNumber();
   }
   return hash;
+}
+
+function getNoteOrderIndex(note){
+    if(note.order_index && !isNaN(note.order_index)){
+        return note.order_index;
+    }
+    note.order_index = getMaxOrderNumber();
+    return note.order_index;
 }
