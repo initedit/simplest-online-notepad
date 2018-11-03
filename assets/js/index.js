@@ -285,14 +285,16 @@ function hideInfo() {
 function copyNoteLinkToClipboard() {
     $("#noteHiddenUrl").val(window.location.href);
     $("#noteHiddenUrl").get(0).select();
-    document.execCommand("Copy");
+    document.execCommand("Copy",false,null);
+    window.getSelection().removeAllRanges();
     showMessage("URL Copied");
 }
 
 function copyNoteToClipboard() {
     $("#noteHiddenData").val($("#note-data").val());
     $("#noteHiddenData").get(0).select();
-    document.execCommand("Copy");
+    document.execCommand("Copy",false,null);
+    window.getSelection().removeAllRanges();
     showMessage("Copied");
 }
 
