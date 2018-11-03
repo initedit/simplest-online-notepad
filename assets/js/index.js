@@ -343,7 +343,7 @@ function handleEmptyVisibility() {
 function setDefaultNoteVisible() {
     handleEmptyVisibility();
     var visibilityIndex = 0;
-    var activeDefaultActiveIndex = parseInt(window.location.hash.replace("#", ""));
+    var activeDefaultActiveIndex = parseInt(getDefaultHash());
     if (isNaN(activeDefaultActiveIndex))
         activeDefaultActiveIndex = 1;
 
@@ -1066,4 +1066,12 @@ function getMaxOrderNumber() {
         }
     }
     return o + 1;
+}
+
+function getDefaultHash(){
+  var hash = window.location.hash.replace("#", "");
+  if(hash || hash.length==0){
+      return getMaxOrderNumber();
+  }
+  return hash;
 }
