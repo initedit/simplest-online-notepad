@@ -1051,12 +1051,19 @@ function shortcutMap(jqueryEvent) {
 }
 
 function getMaxOrderNumber() {
-    var o = -1;
+    var o = 0;
     notes_looper(function (note) {
         if (note.order_index > o)
         {
             o = note.order_index;
         }
     });
+    if(isNaN(o)){
+        try{
+            o = parseInt(o);
+        }catch{
+            o=0;
+        }
+    }
     return o + 1;
 }
