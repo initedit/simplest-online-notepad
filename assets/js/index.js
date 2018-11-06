@@ -343,7 +343,7 @@ function handleEmptyVisibility() {
 function setDefaultNoteVisible() {
     handleEmptyVisibility();
     var visibilityIndex = 0;
-    var activeDefaultActiveIndex = parseInt(getDefaultHash());
+    var activeDefaultActiveIndex = parseInt(getDefaultHash()) + 1;
     if (isNaN(activeDefaultActiveIndex))
         activeDefaultActiveIndex = 1;
 
@@ -1071,7 +1071,7 @@ function getMaxOrderNumber() {
 
 function getDefaultHash(){
   var hash = window.location.hash.replace("#", "");
-  if(hash || hash.length==0){
+  if(hash==undefined || hash.length==0){
       return getMaxOrderNumber();
   }
   return hash;
