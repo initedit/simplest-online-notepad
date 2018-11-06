@@ -56,7 +56,7 @@ if ($action === "getnote") {
         $result["message"] = "Password cannot be changed";
     } else if ($action === "unlock") {
         unset_session("HASH");
-        $result["message"] = "Password removed";
+        $result["message"] = "Locked";
     } else if ($action === "delete") {
 
         $isDeleted = deleteNoteBook(NOTE_FILE_NAME);
