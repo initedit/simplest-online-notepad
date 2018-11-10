@@ -159,7 +159,7 @@
                 </div>
 
                 <textarea id="note-data" 
-                          class="note-textarea mb-sm-5"
+                          class="note-textarea"
                           placeholder="type your note"
                           spellcheck="false"
                           
