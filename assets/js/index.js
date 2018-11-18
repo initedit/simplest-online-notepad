@@ -174,7 +174,7 @@ function setupReordering() {
             config.noteData.notes.splice(newIndex, 0, config.noteData.notes.splice(oldIndex, 1)[0]);
             for (var i = 0; i < config.noteData.notes.length; i++)
             {
-                config.noteData.notes[i].order_index = i;
+                config.noteData.notes[i].order_index = i+1;
                 config.noteData.notes[i].modified = true;
             }
 
@@ -1072,7 +1072,7 @@ function getMaxOrderNumber() {
 function getDefaultHash(){
   var hash = window.location.hash.replace("#", "");
   if(hash==undefined || hash.length==0){
-      return getMaxOrderNumber();
+      return 1;
   }
   return hash;
 }
