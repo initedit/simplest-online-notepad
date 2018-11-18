@@ -343,7 +343,7 @@ function handleEmptyVisibility() {
 function setDefaultNoteVisible() {
     handleEmptyVisibility();
     var visibilityIndex = 0;
-    var activeDefaultActiveIndex = parseInt(getDefaultHash()) + 1;
+    var activeDefaultActiveIndex = parseInt(getDefaultHash());
     if (isNaN(activeDefaultActiveIndex))
         activeDefaultActiveIndex = 1;
 
