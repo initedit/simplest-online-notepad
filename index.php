@@ -13,7 +13,7 @@
         <script src="/assets/js/mousewheel.jquery.js"></script>
         <script src="/assets/js/aes-js.js"></script>
         <script src="/assets/js/encryption.index.js?v=1.0"></script>
-        <script src="/assets/js/index.js?v=1.0"></script>
+        <script src="/assets/js/index.js?v=1.1"></script>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         <meta name="description" content="Simplest Online Notepad editor with security"/>
         <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
