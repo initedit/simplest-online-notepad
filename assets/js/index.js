@@ -342,7 +342,7 @@ function handleEmptyVisibility() {
 
 function setDefaultNoteVisible() {
     handleEmptyVisibility();
-    // var visibilityIndex = 0;
+    var visibilityIndex = 0;
     var activeDefaultActiveIndex = parseInt(getDefaultHash());
     if (isNaN(activeDefaultActiveIndex))
         activeDefaultActiveIndex = 1;
@@ -353,8 +353,8 @@ function setDefaultNoteVisible() {
     for (var noteIndex in config.noteData.notes) {
         var note = config.noteData.notes[noteIndex];
         if (isNoteVisible(note)) {
-            // visibilityIndex++;
-            if (note.order_index == activeDefaultActiveIndex) {
+            visibilityIndex++;
+            if (visibilityIndex == activeDefaultActiveIndex) {
                 setActiveNoteTab(note);
                 return;
             }
@@ -536,7 +536,7 @@ function setActiveNoteTabUI(note) {
     } else {
         $noteData.val(note.data);
     }
-    var noteIndex = getNoteOrderIndex(note);
+    var noteIndex = getVisibleNoteOrderIndex(note);
 
     window.location.hash = "#" + noteIndex;
     $noteTabs.find("#" + note.tabid).addClass("selected");
@@ -689,7 +689,6 @@ function gotoNewNote() {
     $("#newNoteDialog").modal("hide");
 }
 window.onpopstate = function (e) {
-    console.log(arguments);
     if (e.state && e.state.refresh)
         refreshNote();
 };
@@ -1077,9 +1076,16 @@ function getDefaultHash(){
   return hash;
 }
 
-function getNoteOrderIndex(note){
-    if(note.order_index && !isNaN(note.order_index)){
-        return note.order_index;
+function getVisibleNoteOrderIndex(note){
+    var activeIndex = 0;
+    for(var i in config.noteData.notes){
+        var n = config.noteData.notes[i];
+        if(isNoteVisible(n)){
+            activeIndex++;
+        }
+        if(n===note){
+            return activeIndex;
+        }
     }
     note.order_index = getMaxOrderNumber();
     return note.order_index;
