@@ -342,7 +342,7 @@ function handleEmptyVisibility() {
 
 function setDefaultNoteVisible() {
     handleEmptyVisibility();
-    var visibilityIndex = 0;
+    // var visibilityIndex = 0;
     var activeDefaultActiveIndex = parseInt(getDefaultHash());
     if (isNaN(activeDefaultActiveIndex))
         activeDefaultActiveIndex = 1;
@@ -353,8 +353,8 @@ function setDefaultNoteVisible() {
     for (var noteIndex in config.noteData.notes) {
         var note = config.noteData.notes[noteIndex];
         if (isNoteVisible(note)) {
-            visibilityIndex++;
-            if (visibilityIndex === activeDefaultActiveIndex) {
+            // visibilityIndex++;
+            if (note.order_index == activeDefaultActiveIndex) {
                 setActiveNoteTab(note);
                 return;
             }
